@@ -1,4 +1,4 @@
-'use client'; // Ensure this is client-side rendered for Next.js 14
+'use client';
 
 import { Calendar, momentLocalizer, SlotInfo } from 'react-big-calendar';
 import moment from 'moment';
@@ -7,7 +7,6 @@ import { useMemo, useState } from 'react';
 import { Button } from './ui/button';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 
-// Configure the moment localizer
 const localizer = momentLocalizer(moment);
 
 const events = [
@@ -19,8 +18,11 @@ const events = [
     },
 ];
 
-
-const MyCalendar = () => {
+interface Props {
+    onDateSelect: (slotInfo: SlotInfo) => void
+}
+const CalendarGrid = (props: Props) => {
+    const { onDateSelect } = props
     const [calendarEvents, setCalendarEvents] = useState(events);
     const [currentDate, setCurrentDate] = useState<Date>(new Date());
 
@@ -33,13 +35,13 @@ const MyCalendar = () => {
         setCurrentDate(newDate);
     };
 
-    const handleSelectSlot = (slotInfo: SlotInfo) => {
-        alert('Selected date:' + slotInfo.start);
-    };
+    // const handleSelectSlot = (slotInfo: SlotInfo) => {
+    //     alert('Selected date:' + slotInfo.start);
+    // };
 
 
     return (
-        <div style={{ height: '500px' }}>
+        <div >
             <div className="flex items-center justify-between p-4 ">
                 <span className="text-md font-semibold text-gray-700">
                     {moment(currentDate).format('MMMM YYYY')}
@@ -67,10 +69,10 @@ const MyCalendar = () => {
                 toolbar={false}
                 date={currentDate}
                 selectable
-                onSelectSlot={handleSelectSlot}
+                onSelectSlot={onDateSelect}
             />
         </div>
     );
 };
 
-export default MyCalendar;
+export default CalendarGrid;

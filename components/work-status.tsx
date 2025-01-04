@@ -11,9 +11,12 @@ import {
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 
-export default function DialogDemo() {
+interface Props {
+    isOpen: boolean;
+}
+export default function WorkStatusModal({ isOpen }: Props) {
     return (
-        <Dialog open={true}>
+        <Dialog open={isOpen} >
             <DialogContent className="sm:max-w-[425px]">
                 <DialogHeader>
                     <DialogTitle>Edit profile</DialogTitle>

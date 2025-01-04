@@ -1,9 +1,8 @@
-import MyCalendar from "@/components/calendar"
+import Timesheet from "@/components/timesheet";
+
 
 export default function Home() {
   return (
-    <div>
-      <MyCalendar />
-    </div>
+    <Timesheet />
   )
 }
