@@ -1,9 +1,9 @@
-import { Button } from "@/components/ui/button"
+import MyCalendar from "@/components/calendar"
 
 export default function Home() {
   return (
     <div>
-      <Button>Click me</Button>
+      <MyCalendar />
     </div>
   )
 }
