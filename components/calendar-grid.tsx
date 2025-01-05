@@ -24,7 +24,6 @@ interface Props {
 
 
 const CalendarGrid = (props: Props) => {
-    const [calendarEvents, setCalendarEvents] = useState(events);
     const currentDate = useAppSelector((state) => state.timesheet.currentDate);
     const workStatusData = useAppSelector((state) => state.timesheet.workStatusData);
 

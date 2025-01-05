@@ -24,7 +24,8 @@ import {
 
 
 export default function WorkStatusModal() {
-    const workStatusModalData = useAppSelector((state) => state.timesheet.workStatusModal);
+    const { workStatusData, workStatusModal: workStatusModalData } = useAppSelector((state) => state.timesheet);
+    const existingSelectedStatus = workStatusModalData.selectedDate && workStatusData[workStatusModalData.selectedDate]
     const dispatch = useAppDispatch();
     const [selectedStatus, setSelectedStatus] = useState<SelectedStatus | undefined>(undefined)
 
@@ -38,9 +39,11 @@ export default function WorkStatusModal() {
             dispatch(setWorkStatusModalData({ action: 'close', selectedDate: null }))
             setSelectedStatus(undefined)
         }
-
     }
 
+    useEffect(() => {
+        if (existingSelectedStatus && existingSelectedStatus.status) setSelectedStatus(existingSelectedStatus.status)
+    }, [existingSelectedStatus])
 
 
     return (
@@ -67,7 +70,7 @@ export default function WorkStatusModal() {
                     </Select>
                 </div>
                 <DialogFooter>
-                    <Button onClick={handleSave} disabled={!selectedStatus}>Save changes</Button>
+                    <Button onClick={handleSave} >Save changes</Button>
                 </DialogFooter>
             </DialogContent>
         </Dialog>

@@ -1,6 +1,12 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import moment from 'moment';
 
+export interface WorkStatusData {
+    [key: string]: {
+        status: "Working" | "Vacation" | "Sick Leave",
+        metaData: any
+    };
+}
 
 interface TimesheetState {
     currentDate: string;
@@ -8,12 +14,7 @@ interface TimesheetState {
         selectedDate: string | null;
         open: boolean;
     },
-    workStatusData: {
-        [key: string]: {
-            status: "Working" | "Vacation" | "Sick Leave",
-            metaData: any
-        };
-    }
+    workStatusData: WorkStatusData
 }
 
 const initialState: TimesheetState = {
