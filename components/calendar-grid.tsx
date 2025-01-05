@@ -34,9 +34,10 @@ const CalendarGrid = (props: Props) => {
         for (const date in workStatusData) {
             const obj = workStatusData[date];
             events.push({
-                title: <span>{obj.status}</span>,
+                title: obj.status,
                 start: new Date(date),
                 end: new Date(date),
+                status: obj.status
             })
         }
         return events
@@ -80,7 +81,15 @@ const CalendarGrid = (props: Props) => {
         return {
             style: {
                 backgroundColor: getBgColor(date),
+                cursor: "pointer"
             },
+        };
+    };
+
+
+    const eventPropGetter = (event: any) => {
+        return {
+            style: { background: 'transparent', color: "black" },
         };
     };
 
@@ -99,7 +108,13 @@ const CalendarGrid = (props: Props) => {
                 if (slotInfo.start.getMonth() !== new Date(currentDate).getMonth()) return
                 dispatch(setWorkStatusModalData({ action: "open", selectedDate: slotInfo.start.toISOString() }))
             }}
+            onSelectEvent={(event: any) => {
+                if (isWeekend(event.start)) return
+                if (event.start.getMonth() !== new Date(currentDate).getMonth()) return
+                dispatch(setWorkStatusModalData({ action: "open", selectedDate: event.start.toISOString() }))
+            }}
             dayPropGetter={dayPropGetter}
+            eventPropGetter={eventPropGetter}
         />
     );
 };
