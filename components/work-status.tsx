@@ -1,45 +1,73 @@
 import { Button } from "@/components/ui/button"
+import { useState, useEffect } from "react"
 import {
     Dialog,
     DialogContent,
-    DialogDescription,
     DialogFooter,
     DialogHeader,
     DialogTitle,
-    DialogTrigger,
 } from "@/components/ui/dialog"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
+import { addWorkStatus, SelectedStatus, setWorkStatusModalData } from "@/store/slices/timesheetSlice";
+import moment from "moment";
+import {
+    Select,
+    SelectContent,
+    SelectGroup,
+    SelectItem,
+    SelectLabel,
+    SelectTrigger,
+    SelectValue,
+} from "@/components/ui/select"
 
-interface Props {
-    isOpen: boolean;
-}
-export default function WorkStatusModal({ isOpen }: Props) {
+
+
+
+export default function WorkStatusModal() {
+    const workStatusModalData = useAppSelector((state) => state.timesheet.workStatusModal);
+    const dispatch = useAppDispatch();
+    const [selectedStatus, setSelectedStatus] = useState<SelectedStatus | undefined>(undefined)
+
+    const handleChange = (value: string) => {
+        setSelectedStatus(value as SelectedStatus);
+    };
+
+    const handleSave = () => {
+        if (selectedStatus) {
+            dispatch(addWorkStatus({ status: selectedStatus, metaData: null }))
+            dispatch(setWorkStatusModalData({ action: 'close', selectedDate: null }))
+            setSelectedStatus(undefined)
+        }
+
+    }
+
+
+
     return (
-        <Dialog open={isOpen} >
+        <Dialog open={workStatusModalData.open} onOpenChange={_ => {
+            dispatch(setWorkStatusModalData({ action: "close", selectedDate: null }))
+            setSelectedStatus(undefined)
+        }}>
             <DialogContent className="sm:max-w-[425px]">
                 <DialogHeader>
-                    <DialogTitle>Edit profile</DialogTitle>
-                    <DialogDescription>
-                        Make changes to your profile here. Click save when you're done.
-                    </DialogDescription>
+                    <DialogTitle>Set work status for: {moment(workStatusModalData.selectedDate).format('D MMMM YYYY')}</DialogTitle>
                 </DialogHeader>
-                <div className="grid gap-4 py-4">
-                    <div className="grid grid-cols-4 items-center gap-4">
-                        <Label htmlFor="name" className="text-right">
-                            Name
-                        </Label>
-                        <Input id="name" value="Pedro Duarte" className="col-span-3" />
-                    </div>
-                    <div className="grid grid-cols-4 items-center gap-4">
-                        <Label htmlFor="username" className="text-right">
-                            Username
-                        </Label>
-                        <Input id="username" value="@peduarte" className="col-span-3" />
-                    </div>
+                <div>
+                    <Select onValueChange={handleChange} defaultValue={selectedStatus}>
+                        <SelectTrigger>
+                            <SelectValue placeholder="Select" />
+                        </SelectTrigger>
+                        <SelectContent>
+                            <SelectGroup>
+                                <SelectItem value="Working">Working</SelectItem>
+                                <SelectItem value="Vacation">Vacation</SelectItem>
+                                <SelectItem value="Sick Leave">Sick Leave</SelectItem>
+                            </SelectGroup>
+                        </SelectContent>
+                    </Select>
                 </div>
                 <DialogFooter>
-                    <Button type="submit">Save changes</Button>
+                    <Button onClick={handleSave} disabled={!selectedStatus}>Save changes</Button>
                 </DialogFooter>
             </DialogContent>
         </Dialog>
