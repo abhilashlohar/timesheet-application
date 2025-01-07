@@ -6,7 +6,7 @@ import 'react-big-calendar/lib/css/react-big-calendar.css';
 import { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
 import { fetchHolidays, setWorkStatusData, setWorkStatusModalData } from '@/store/slices/timesheetSlice';
-import { getColorsBasedOnStatus, isWeekend, statusClasses } from '@/utils';
+import { isWeekend } from '@/utils';
 import { WorkStatusData } from '@/types/global';
 
 
