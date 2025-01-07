@@ -1,8 +1,8 @@
 import { useAppSelector } from "@/store/hooks";
 import { Button } from "./ui/button";
-import { WorkStatusData } from "@/store/slices/timesheetSlice";
 import { isWeekend } from "@/utils";
 import { useToast } from "@/hooks/use-toast"
+import { WorkStatusData } from "@/types/global";
 
 
 export default function TimesheetFooter() {

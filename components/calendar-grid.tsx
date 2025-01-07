@@ -5,8 +5,9 @@ import moment from 'moment';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
-import { fetchHolidays, setWorkStatusData, setWorkStatusModalData, WorkStatusData } from '@/store/slices/timesheetSlice';
-import { isWeekend } from '@/utils';
+import { fetchHolidays, setWorkStatusData, setWorkStatusModalData } from '@/store/slices/timesheetSlice';
+import { getColorsBasedOnStatus, isWeekend, statusClasses } from '@/utils';
+import { WorkStatusData } from '@/types/global';
 
 
 const localizer = momentLocalizer(moment);
@@ -74,62 +75,21 @@ const CalendarGrid = (props: Props) => {
     }
 
     const dayPropGetter: (date: Date) => React.HTMLAttributes<HTMLDivElement> = (date) => {
-        if (isHoliday(date.toISOString())) {
-            return {
-                style: {
-                    backgroundColor: '#e6e6e6',
-                    pointerEvents: 'none',
-                    cursor: 'default',
-                },
-            };
-        } else if (isWeekend(date)) {
-            return {
-                style: {
-                    backgroundColor: '#e6e6e6',
-                    pointerEvents: 'none',
-                    cursor: 'default',
-                },
-            };
-        } else
-            return {
-                style: {
-                    backgroundColor: getBgColor(date).bg,
-                    color: 'red',
-                    cursor: "pointer"
-                },
-            };
+        if (isWeekend(date) || isHoliday(date.toISOString()))
+            return { className: "bg-gray-100 dark:bg-gray-900 text-gray-800 dark:text-white" }
+        else return { className: "bg-white text-black dark:bg-black dark:text-white" }
     };
 
+    function getStatusColor(status: any) {
+        if (status === 'Working') return "darkgreen"
+        if (status === 'Vacation') return "darkblue"
+        if (status === 'Sick Leave') return "darkred"
+        return "black"
+    }
 
     const eventPropGetter = (event: any) => {
-        const date = event.start
-        if (isHoliday(date.toISOString())) {
-            return {
-                style: {
-                    backgroundColor: 'transparent',
-                    pointerEvents: 'none',
-                    cursor: 'default',
-                    color: getBgColor(date).text
-                },
-            };
-        } else if (isWeekend(date)) {
-            return {
-                style: {
-                    backgroundColor: 'transparent',
-                    pointerEvents: 'none',
-                    cursor: 'default',
-                    color: getBgColor(date).text
-                },
-            };
-        } else
-            return {
-                style: {
-                    backgroundColor: 'transparent',
-                    cursor: "pointer",
-                    color: getBgColor(date).text
-                },
-            };
-    };
+        return { style: { backgroundColor: "transparent", color: getStatusColor(event.status) } }
+    }
 
     const handleDateClick = (date: any) => {
         if (isWeekend(date)) return

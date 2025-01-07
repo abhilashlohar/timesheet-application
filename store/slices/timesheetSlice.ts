@@ -1,13 +1,9 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import moment from 'moment';
 import axios, { AxiosError } from "axios"
+import { WorkStatusData, WorkStatusType } from '@/types/global';
 
-export interface WorkStatusData {
-    [key: string]: {
-        status: "Working" | "Vacation" | "Sick Leave" | "Holiday",
-        metaData: any
-    };
-}
+
 
 type ApiStatus = "ideal" | "pending" | "fulfilled" | "rejected";
 interface FetchHolidayApiData {
@@ -30,10 +26,9 @@ type WorkStatusModalPayload = {
     action: "open" | "close",
     selectedDate: string | null
 }
-export type SelectedStatus = "Working" | "Vacation" | "Sick Leave";
 
 interface AddWordStatusPayload {
-    status: SelectedStatus,
+    status: WorkStatusType,
     metaData: any;
 }
 
@@ -119,6 +114,14 @@ const timesheetSlice = createSlice({
                 state.workStatusData = temp
             }
         },
+        clearWorkStatus: (state) => {
+            const date = state.workStatusModal.selectedDate
+            if (date) {
+                let temp = JSON.parse(JSON.stringify(state.workStatusData))
+                delete temp[date]
+                state.workStatusData = temp
+            }
+        },
         setWorkStatusData: (state, action: PayloadAction<WorkStatusData>) => {
             state.workStatusData = action.payload
         }
@@ -140,5 +143,5 @@ const timesheetSlice = createSlice({
     },
 });
 
-export const { changeMonth, setWorkStatusModalData, addWorkStatus, setWorkStatusData } = timesheetSlice.actions;
+export const { changeMonth, setWorkStatusModalData, addWorkStatus, setWorkStatusData, clearWorkStatus } = timesheetSlice.actions;
 export default timesheetSlice.reducer;

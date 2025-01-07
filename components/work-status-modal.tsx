@@ -8,17 +8,17 @@ import {
     DialogTitle,
 } from "@/components/ui/dialog"
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
-import { addWorkStatus, SelectedStatus, setWorkStatusModalData } from "@/store/slices/timesheetSlice";
+import { addWorkStatus, setWorkStatusModalData } from "@/store/slices/timesheetSlice";
 import moment from "moment";
 import {
     Select,
     SelectContent,
     SelectGroup,
     SelectItem,
-    SelectLabel,
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select"
+import { WorkStatusType } from "@/types/global";
 
 
 
@@ -27,10 +27,10 @@ export default function WorkStatusModal() {
     const { workStatusData, workStatusModal: workStatusModalData } = useAppSelector((state) => state.timesheet);
     const existingSelectedStatus = workStatusModalData.selectedDate && workStatusData[workStatusModalData.selectedDate]
     const dispatch = useAppDispatch();
-    const [selectedStatus, setSelectedStatus] = useState<SelectedStatus | undefined>(undefined)
+    const [selectedStatus, setSelectedStatus] = useState<WorkStatusType | undefined>(undefined)
 
     const handleChange = (value: string) => {
-        setSelectedStatus(value as SelectedStatus);
+        setSelectedStatus(value as WorkStatusType);
     };
 
     const handleSave = () => {
@@ -51,7 +51,7 @@ export default function WorkStatusModal() {
             dispatch(setWorkStatusModalData({ action: "close", selectedDate: null }))
             setSelectedStatus(undefined)
         }}>
-            <DialogContent className="sm:max-w-[425px]">
+            <DialogContent className="md:max-w-[40rem] m-full">
                 <DialogHeader>
                     <DialogTitle>Set work status for: {moment(workStatusModalData.selectedDate).format('D MMMM YYYY')}</DialogTitle>
                 </DialogHeader>
@@ -65,6 +65,7 @@ export default function WorkStatusModal() {
                                 <SelectItem value="Working">Working</SelectItem>
                                 <SelectItem value="Vacation">Vacation</SelectItem>
                                 <SelectItem value="Sick Leave">Sick Leave</SelectItem>
+                                <SelectItem value="Clear">Clear</SelectItem>
                             </SelectGroup>
                         </SelectContent>
                     </Select>
