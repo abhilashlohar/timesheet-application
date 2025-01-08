@@ -100,7 +100,7 @@ const CalendarGrid = (props: Props) => {
     return (
         <>
             {['ideal', 'pending'].includes(fetchHolidayApiData.status) && (
-                <div className="w-full h-[500px] bg-gray-200 rounded-lg animate-pulse" />
+                <div className="w-full h-[500px] bg-gray-200 dark:bg-gray-900 rounded-lg animate-pulse" />
             )}
             {fetchHolidayApiData.status === 'fulfilled' && (
                 <Calendar
