@@ -11,6 +11,11 @@ interface FetchHolidayApiData {
     data: unknown
 }
 
+interface SaveTimesheetData {
+    status: ApiStatus,
+    data: unknown
+}
+
 interface TimesheetState {
     currentDate: string;
     workStatusModal: {
@@ -19,6 +24,7 @@ interface TimesheetState {
     },
     workStatusData: WorkStatusData,
     fetchHolidayApiData: FetchHolidayApiData
+    saveTimesheetApiData: SaveTimesheetData
 }
 
 type ChangeMonthActionType = "today" | "previous" | "next";
@@ -44,6 +50,10 @@ const initialState: TimesheetState = {
     fetchHolidayApiData: {
         status: "ideal",
         data: null
+    },
+    saveTimesheetApiData: {
+        status: "ideal",
+        data: null
     }
 };
 
@@ -51,6 +61,29 @@ const initialState: TimesheetState = {
 export const fetchHolidays = createAsyncThunk('fetchHolidays', async (_, thunkAPI) => {
     try {
         const response = await axios.get('http://localhost:9000/holidays');
+        return response.data;
+    } catch (error: unknown) {
+        if (axios.isAxiosError(error)) {
+            if (error.response && error.response.status === 404) {
+                console.error('Resource not found!');
+            } else if (error.code === 'ECONNABORTED') {
+                console.error('Request timed out!');
+            } else if (error.message === 'Network Error') {
+                console.error('Network error, please check your connection!');
+            } else {
+                console.error('An unexpected error occurred:', error.message);
+            }
+        } else {
+            console.error('An unknown error occurred:', error);
+        }
+    }
+});
+
+export const saveTimesheet = createAsyncThunk('save-timesheet', async (arg: any, thunkAPI) => {
+    try {
+        console.log('saveTimesheet payload', arg);
+
+        const response = await axios.get('http://localhost:9000/save-timesheet');
         return response.data;
     } catch (error: unknown) {
         if (axios.isAxiosError(error)) {
@@ -139,6 +172,18 @@ const timesheetSlice = createSlice({
             .addCase(fetchHolidays.rejected, (state, action) => {
                 state.fetchHolidayApiData.status = 'rejected';
                 state.fetchHolidayApiData.data = null;
+            })
+            .addCase(saveTimesheet.pending, (state) => {
+                state.saveTimesheetApiData.status = 'pending';
+                state.saveTimesheetApiData.data = null;
+            })
+            .addCase(saveTimesheet.fulfilled, (state, action) => {
+                state.saveTimesheetApiData.status = 'fulfilled';
+                state.saveTimesheetApiData.data = action.payload;
+            })
+            .addCase(saveTimesheet.rejected, (state, action) => {
+                state.saveTimesheetApiData.status = 'rejected';
+                state.saveTimesheetApiData.data = null;
             });
     },
 });

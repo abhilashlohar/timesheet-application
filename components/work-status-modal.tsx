@@ -10,20 +10,11 @@ import {
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { addWorkStatus, clearWorkStatus, setWorkStatusModalData } from "@/store/slices/timesheetSlice";
 import moment from "moment";
-import {
-    Select,
-    SelectContent,
-    SelectGroup,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
-} from "@/components/ui/select"
+
 import { WorkStatusType } from "@/types/global";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Input } from "@/components/ui/input";
 import HourInput from "./hour-input";
-
-
 
 
 export default function WorkStatusModal() {
@@ -31,33 +22,41 @@ export default function WorkStatusModal() {
     const existingSelectedStatus = workStatusModalData.selectedDate && workStatusData[workStatusModalData.selectedDate]
     const dispatch = useAppDispatch();
     const [selectedStatus, setSelectedStatus] = useState<WorkStatusType | "">("")
-    console.log('hello selectedStatus', selectedStatus);
-    console.log('hello existingSelectedStatus', existingSelectedStatus);
+    const [metaData, setMetaData] = useState<any>({ workingHrs: 8 })
 
 
     const handleChange = (value: string) => {
-        console.log('hello handleChange called');
-
         setSelectedStatus(value as WorkStatusType);
+        if (value === "Working") setMetaData({ workingHrs: 8 })
     };
 
     const handleSave = () => {
         if (selectedStatus) {
-            dispatch(addWorkStatus({ status: selectedStatus, metaData: null }))
+            dispatch(addWorkStatus({ status: selectedStatus, metaData: metaData }))
             dispatch(setWorkStatusModalData({ action: 'close', selectedDate: null }))
             setSelectedStatus("")
+            setMetaData({ workingHrs: 8 })
         }
     }
 
     const handleReset = () => {
         setSelectedStatus("")
+        setMetaData({ workingHrs: 8 })
         dispatch(clearWorkStatus())
         dispatch(setWorkStatusModalData({ action: 'close', selectedDate: null }))
     }
 
     useEffect(() => {
-        if (existingSelectedStatus && existingSelectedStatus.status) setSelectedStatus(existingSelectedStatus.status)
+        if (existingSelectedStatus && existingSelectedStatus.status) {
+            setSelectedStatus(existingSelectedStatus.status)
+            setMetaData(existingSelectedStatus.metaData)
+        }
     }, [existingSelectedStatus])
+
+    const handleHourSelect = (value: number) => {
+        setMetaData({ workingHrs: value })
+    }
+
 
 
     return (
@@ -77,12 +76,14 @@ export default function WorkStatusModal() {
                             <TabsTrigger value="Sick Leave">Sick Leave</TabsTrigger>
                         </TabsList>
                         <TabsContent value="Working">
-                            <HourInput onSelect={(value: number) => {
-                                console.log("hello Selected Rating:", value);
-                            }} />
+                            <HourInput onSelect={handleHourSelect} defaultValue={metaData?.workingHrs} />
                         </TabsContent>
-                        <TabsContent value="Vacation">Vacation</TabsContent>
-                        <TabsContent value="Sick Leave">Sick Leave</TabsContent>
+                        <TabsContent value="Vacation">
+                            <Input placeholder="Notes" onChange={(e) => setMetaData({ notes: e.target.value })} value={metaData?.notes} />
+                        </TabsContent>
+                        <TabsContent value="Sick Leave">
+                            <Input placeholder="Notes" onChange={(e) => setMetaData({ notes: e.target.value })} value={metaData?.notes} />
+                        </TabsContent>
                     </Tabs>
                 </div>
                 <DialogFooter>

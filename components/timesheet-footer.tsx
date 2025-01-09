@@ -1,14 +1,16 @@
-import { useAppSelector } from "@/store/hooks";
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { Button } from "./ui/button";
 import { isWeekend } from "@/utils";
 import { useToast } from "@/hooks/use-toast"
 import { WorkStatusData } from "@/types/global";
+import { saveTimesheet } from "@/store/slices/timesheetSlice";
 
 
 export default function TimesheetFooter() {
     const workStatusData = useAppSelector((state) => state.timesheet.workStatusData);
     const currentDate = useAppSelector((state) => state.timesheet.currentDate);
     const { toast } = useToast()
+    const dispatch = useAppDispatch()
 
 
 
@@ -125,19 +127,18 @@ export default function TimesheetFooter() {
 
     const handleSubmit = () => {
         const monthData = getCurrentMonthData(workStatusData, currentDate);
-        console.log('POST to API', monthData)
+        dispatch(saveTimesheet(monthData))
         toast({
             title: "Timesheet submitted successfully.",
-            duration: 3000, // Duration of the toast in milliseconds
+            duration: 3000,
             style: {
-                backgroundColor: '#4caf50', // Green background for success
-                color: '#fff', // White text color
-                borderRadius: '8px', // Optional: rounded corners
-                fontWeight: 'bold', // Optional: make the text bold
-                padding: '16px', // Optional: padding inside the toast
+                backgroundColor: '#4caf50',
+                color: '#fff',
+                borderRadius: '8px',
+                fontWeight: 'bold',
+                padding: '16px',
             },
         })
-
     }
 
     return (

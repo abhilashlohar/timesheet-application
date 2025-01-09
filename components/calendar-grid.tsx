@@ -22,6 +22,8 @@ const CalendarGrid = (props: Props) => {
     const workStatusData = useAppSelector((state) => state.timesheet.workStatusData);
     const fetchHolidayApiData = useAppSelector((state) => state.timesheet.fetchHolidayApiData);
     const dispatch = useAppDispatch();
+    const theme = useAppSelector((state) => state.theme.theme);
+
 
     useEffect(() => {
         dispatch(fetchHolidays())
@@ -39,6 +41,7 @@ const CalendarGrid = (props: Props) => {
             const obj = workStatusData[date];
             events.push({
                 title: obj.status,
+                description: obj.status === 'Working' ? `${obj.metaData?.workingHrs} Hrs` : obj.metaData?.notes,
                 start: new Date(date),
                 end: new Date(date),
                 status: obj.status
@@ -47,27 +50,13 @@ const CalendarGrid = (props: Props) => {
         return events
     }
 
-
-
-    const getBgColor = (date: Date) => {
-        const dateKey = date.toISOString();
-
-        if (workStatusData[dateKey]) {
-            const status = workStatusData[dateKey].status;
-
-            switch (status) {
-                case 'Working':
-                    return { bg: '#ebf8ff', text: '#2b6cb0' };
-                case 'Vacation':
-                    return { bg: '#f0fff4', text: '#2f855a' };
-                case 'Sick Leave':
-                    return { bg: '#fff5f5', text: '#e53e3e' };
-                default:
-                    return { bg: '#fff', text: '#000' };
-            }
-        }
-
-        return { bg: '#fff', text: '#000' };
+    const EventComponent = ({ event }: any) => {
+        return (
+            <div className="flex flex-col" title={event.description}>
+                <span className={`font-semi-bold text-sm ${getTitleClass(event.status)}`}>{event.status}</span>
+                <span className="text-xs text-gray-500">{event.description}</span>
+            </div>
+        );
     };
 
     function isHoliday(isoDate: string) {
@@ -80,15 +69,16 @@ const CalendarGrid = (props: Props) => {
         else return { className: "bg-white text-black dark:bg-black dark:text-white" }
     };
 
-    function getStatusColor(status: any) {
-        if (status === 'Working') return "darkgreen"
-        if (status === 'Vacation') return "darkblue"
-        if (status === 'Sick Leave') return "darkred"
-        return "black"
+    function getTitleClass(status: any) {
+        if (status === 'Working') return "text-teal-500"
+        if (status === 'Vacation') return "text-pink-500"
+        if (status === 'Sick Leave') return "text-yellow-500"
+        if (status === 'Holiday') return "text-deep-purple-500"
+        return ""
     }
 
     const eventPropGetter = (event: any) => {
-        return { style: { backgroundColor: "transparent", color: getStatusColor(event.status) } }
+        return { style: { backgroundColor: "transparent" } }
     }
 
     const handleDateClick = (date: any) => {
@@ -116,6 +106,9 @@ const CalendarGrid = (props: Props) => {
                     onSelectEvent={(event: any) => handleDateClick(event.start)}
                     dayPropGetter={dayPropGetter}
                     eventPropGetter={eventPropGetter}
+                    components={{
+                        event: EventComponent
+                    }}
                 />
             )}
         </>

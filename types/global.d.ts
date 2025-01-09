@@ -13,4 +13,7 @@ export interface StatusColorCodeObject {
     text: string;
 }
 
-
+export interface WordStatus {
+    status: WorkStatusType,
+    metaData: any;
+}

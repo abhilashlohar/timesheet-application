@@ -12,7 +12,7 @@ export default function CalendatHeader() {
 
     return (
         <div className="flex items-center justify-between p-4 ">
-            <span className="text-md font-semibold text-gray-700">
+            <span className="text-md font-semibold text-black dark:text-white">
                 {moment(currentDate).format('MMMM YYYY')}
             </span>
             <div className='flex tems-center gap-1'>

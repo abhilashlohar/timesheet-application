@@ -3,20 +3,23 @@
         "2024-12-31T20:00:00.000Z": {
             "status": "Holiday",
             "metaData": {
-                "note": "New Year's Day Celebration"
+                "notes": "New Year's Day Celebration"
             }
         },
         "2025-03-31T20:00:00.000Z": {
             "status": "Holiday",
             "metaData": {
-                "note": "Start of Ramadan Observance"
+                "notes": "Start of Ramadan Observance"
             }
         },
         "2025-04-09T20:00:00.000Z": {
             "status": "Holiday",
             "metaData": {
-                "note": "Eid al-Fitr Festival"
+                "notes": "Eid al-Fitr Festival"
             }
         }
+    },
+    "save-timesheet": {
+        "message": "Timesheet saved successfully."
     }
 }

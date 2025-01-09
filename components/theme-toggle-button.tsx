@@ -28,8 +28,9 @@ const ThemeToggle = () => {
         <Button
             onClick={handleToggle}
             variant='outline'
+
         >
-            {theme === 'light' ? '🌙 Dark Mode' : '☀️ Light Mode'}
+            {theme === 'light' ? '🌙' : '☀️'}
         </Button>
     );
 };

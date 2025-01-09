@@ -29,6 +29,7 @@
     "react-big-calendar": "^1.17.1",
     "react-dom": "^18",
     "react-redux": "^9.2.0",
+    "recharts": "^2.15.0",
     "tailwind-merge": "^2.6.0",
     "tailwindcss-animate": "^1.0.7"
   },

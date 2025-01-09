@@ -13,8 +13,8 @@ const getClassName = (isSelected: boolean) => {
     return `${baseClasses} ${lightModeClasses} ${darkModeClasses}`;
 };
 
-const HourInput = ({ onSelect }: { onSelect: (value: number) => void }) => {
-    const [selected, setSelected] = useState<number | null>(null);
+const HourInput = ({ onSelect, defaultValue }: { onSelect: (value: number) => void, defaultValue: number }) => {
+    const [selected, setSelected] = useState<number | null>(defaultValue || 8);
 
     const handleSelect = (value: number) => {
         setSelected(value);
