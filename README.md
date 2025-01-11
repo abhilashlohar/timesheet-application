@@ -22,3 +22,7 @@ npm install
 npm run build
 npm run start
 ```
+
+Some screenshots:
+![timesheet-desktop](https://github.com/abhilashlohar/timesheet-application/blob/main/screenshots/timesheet-desktop.png)
+
