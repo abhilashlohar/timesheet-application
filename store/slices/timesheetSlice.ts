@@ -1,21 +1,11 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import moment from 'moment';
 import axios, { AxiosError } from "axios"
-import { ApiStatus, WorkStatusData, WorkStatusType } from '@/types/global';
+import { ApiStatus, ChangeMonthActionType, FetchHolidayApiData, SaveTimesheetData, WorkStatusData, WorkStatusModalPayload, WorkStatusType } from '@/types/global';
 
 
 
-interface FetchHolidayApiData {
-    status: ApiStatus,
-    data: unknown,
-    message: string
-}
 
-interface SaveTimesheetData {
-    status: ApiStatus,
-    data: unknown,
-    message: string
-}
 
 interface TimesheetState {
     currentDate: string;
@@ -28,11 +18,7 @@ interface TimesheetState {
     saveTimesheetApiData: SaveTimesheetData
 }
 
-type ChangeMonthActionType = "today" | "previous" | "next";
-type WorkStatusModalPayload = {
-    action: "open" | "close",
-    selectedDate: string | null
-}
+
 
 interface AddWordStatusPayload {
     status: WorkStatusType,
