@@ -2,20 +2,13 @@
 import React from 'react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import { Card, CardContent, CardHeader } from './ui/card';
+import { useAppSelector } from '@/store/hooks';
 
-// Sample data for average daily work hours for each day of the week
-const data = [
-    { day: 'Monday', hours: 8 },
-    { day: 'Tuesday', hours: 7.5 },
-    { day: 'Wednesday', hours: 8 },
-    { day: 'Thursday', hours: 7 },
-    { day: 'Friday', hours: 6.5 },
-    { day: 'Saturday', hours: 0 },
-    { day: 'Sunday', hours: 0 },
-];
 
-// Custom styling for the chart
 const AverageDailyWorkHoursChart: React.FC = () => {
+    const chartData = useAppSelector((state) => state.analytics.fetchChartDataApiData);
+    const data = chartData.data.chart4 as []
+
     return (
         <Card className="shadow-md p-6">
             <CardHeader>
@@ -27,12 +20,12 @@ const AverageDailyWorkHoursChart: React.FC = () => {
                         <CartesianGrid strokeDasharray="3 3" />
                         <XAxis dataKey="day" />
                         <YAxis />
-                        <Tooltip />
+                        <Tooltip contentStyle={{ color: 'var(--tw-text-opacity, #000)' }} />
                         <Legend />
                         <Line
                             type="monotone"
                             dataKey="hours"
-                            stroke="#4CAF50"
+                            stroke="#009688"
                             strokeWidth={2}
                             dot={false}
                             activeDot={{ r: 8 }}

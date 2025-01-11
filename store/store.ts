@@ -1,11 +1,13 @@
 import { configureStore } from '@reduxjs/toolkit';
 import timesheetReducer from './slices/timesheetSlice';
 import themeReducer from './slices/themeSlice';
+import analyticsReducer from './slices/analyticsSlice';
 
 export const store = configureStore({
     reducer: {
         timesheet: timesheetReducer,
-        theme: themeReducer
+        theme: themeReducer,
+        analytics: analyticsReducer
     },
 });
 

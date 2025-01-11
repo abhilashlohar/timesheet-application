@@ -21,5 +21,110 @@
     },
     "save-timesheet": {
         "message": "Timesheet saved successfully."
+    },
+    "analytics-data": {
+        "chart1": [
+            {
+                "name": "Working",
+                "value": 60
+            },
+            {
+                "name": "Vacation",
+                "value": 25
+            },
+            {
+                "name": "Sick Leave",
+                "value": 10
+            },
+            {
+                "name": "Holiday",
+                "value": 5
+            }
+        ],
+        "chart2": [
+            {
+                "week": "Week 1",
+                "hours": 40
+            },
+            {
+                "week": "Week 2",
+                "hours": 35
+            },
+            {
+                "week": "Week 3",
+                "hours": 45
+            },
+            {
+                "week": "Week 4",
+                "hours": 38
+            }
+        ],
+        "chart3": [
+            {
+                "day": "Monday",
+                "work": 8,
+                "nonWork": 0
+            },
+            {
+                "day": "Tuesday",
+                "work": 8,
+                "nonWork": 0
+            },
+            {
+                "day": "Wednesday",
+                "work": 6,
+                "nonWork": 2
+            },
+            {
+                "day": "Thursday",
+                "work": 8,
+                "nonWork": 0
+            },
+            {
+                "day": "Friday",
+                "work": 5,
+                "nonWork": 3
+            },
+            {
+                "day": "Saturday",
+                "work": 0,
+                "nonWork": 8
+            },
+            {
+                "day": "Sunday",
+                "work": 0,
+                "nonWork": 8
+            }
+        ],
+        "chart4": [
+            {
+                "day": "Monday",
+                "hours": 8
+            },
+            {
+                "day": "Tuesday",
+                "hours": 7.5
+            },
+            {
+                "day": "Wednesday",
+                "hours": 8
+            },
+            {
+                "day": "Thursday",
+                "hours": 7
+            },
+            {
+                "day": "Friday",
+                "hours": 6.5
+            },
+            {
+                "day": "Saturday",
+                "hours": 0
+            },
+            {
+                "day": "Sunday",
+                "hours": 0
+            }
+        ]
     }
 }

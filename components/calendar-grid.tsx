@@ -60,7 +60,7 @@ const CalendarGrid = (props: Props) => {
     };
 
     function isHoliday(isoDate: string) {
-        return workStatusData[isoDate]?.status === "Holiday"
+        return workStatusData?.[isoDate]?.status === "Holiday"
     }
 
     const dayPropGetter: (date: Date) => React.HTMLAttributes<HTMLDivElement> = (date) => {
@@ -92,6 +92,13 @@ const CalendarGrid = (props: Props) => {
             {['ideal', 'pending'].includes(fetchHolidayApiData.status) && (
                 <div className="w-full h-[500px] bg-gray-200 dark:bg-gray-900 rounded-lg animate-pulse" />
             )}
+
+            {fetchHolidayApiData.status === 'rejected' && (
+                <div className="w-full h-[500px] bg-gray-200 dark:bg-gray-900 rounded-lg flex items-center justify-center" >
+                    {fetchHolidayApiData.message}
+                </div>
+            )}
+
             {fetchHolidayApiData.status === 'fulfilled' && (
                 <Calendar
                     localizer={localizer}

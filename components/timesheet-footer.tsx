@@ -1,6 +1,6 @@
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { Button } from "./ui/button";
-import { isWeekend } from "@/utils";
+import { isNotEmptyObject, isWeekend } from "@/utils";
 import { useToast } from "@/hooks/use-toast"
 import { WorkStatusData } from "@/types/global";
 import { saveTimesheet } from "@/store/slices/timesheetSlice";
@@ -33,7 +33,7 @@ export default function TimesheetFooter() {
             }
 
             // Check if the status exists for the current date
-            if (!workStatusData[dateString] || !['Working', 'Vacation', 'Sick Leave'].includes(workStatusData[dateString].status)) {
+            if (!workStatusData?.[dateString] || !['Working', 'Vacation', 'Sick Leave'].includes(workStatusData[dateString].status)) {
                 return false; // Return false if status is missing or invalid
             }
         }
@@ -68,7 +68,7 @@ export default function TimesheetFooter() {
     const getHolidaysOfMonth = (workStatusData: WorkStatusData, isoDate: string): string[] => {
         const holidays: string[] = [];
 
-        Object.keys(workStatusData).forEach(date => {
+        isNotEmptyObject(workStatusData) && Object.keys(workStatusData).forEach(date => {
             // Only include the dates with status "Holiday"
             if (workStatusData[date].status === "Holiday") {
                 const holidayDate = new Date(date);

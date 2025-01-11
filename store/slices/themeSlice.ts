@@ -6,11 +6,13 @@ interface ThemeState {
 
 
 const initialState: ThemeState = {
-    theme: 'light', // Default theme
+    theme: 'dark', // Default theme
 };
 
 if (typeof window !== 'undefined') {
     const savedTheme = localStorage.getItem('theme');
+    console.log('hello savedTheme', savedTheme);
+
     if (savedTheme) {
         initialState.theme = savedTheme as 'light' | 'dark';
     }

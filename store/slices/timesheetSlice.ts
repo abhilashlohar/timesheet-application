@@ -1,19 +1,20 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import moment from 'moment';
 import axios, { AxiosError } from "axios"
-import { WorkStatusData, WorkStatusType } from '@/types/global';
+import { ApiStatus, WorkStatusData, WorkStatusType } from '@/types/global';
 
 
 
-type ApiStatus = "ideal" | "pending" | "fulfilled" | "rejected";
 interface FetchHolidayApiData {
     status: ApiStatus,
-    data: unknown
+    data: unknown,
+    message: string
 }
 
 interface SaveTimesheetData {
     status: ApiStatus,
-    data: unknown
+    data: unknown,
+    message: string
 }
 
 interface TimesheetState {
@@ -49,11 +50,13 @@ const initialState: TimesheetState = {
     workStatusData: {},
     fetchHolidayApiData: {
         status: "ideal",
-        data: null
+        data: null,
+        message: ""
     },
     saveTimesheetApiData: {
         status: "ideal",
-        data: null
+        data: null,
+        message: ""
     }
 };
 
@@ -65,17 +68,16 @@ export const fetchHolidays = createAsyncThunk('fetchHolidays', async (_, thunkAP
     } catch (error: unknown) {
         if (axios.isAxiosError(error)) {
             if (error.response && error.response.status === 404) {
-                console.error('Resource not found!');
+                return thunkAPI.rejectWithValue('Resource not found!');
             } else if (error.code === 'ECONNABORTED') {
-                console.error('Request timed out!');
+                return thunkAPI.rejectWithValue('Request timed out!');
             } else if (error.message === 'Network Error') {
-                console.error('Network error, please check your connection!');
+                return thunkAPI.rejectWithValue('Network error, please check your connection!');
             } else {
-                console.error('An unexpected error occurred:', error.message);
+                return thunkAPI.rejectWithValue('An unexpected error occurred.');
             }
-        } else {
-            console.error('An unknown error occurred:', error);
         }
+        return thunkAPI.rejectWithValue('Something went wrong.');
     }
 });
 
@@ -88,17 +90,16 @@ export const saveTimesheet = createAsyncThunk('save-timesheet', async (arg: any,
     } catch (error: unknown) {
         if (axios.isAxiosError(error)) {
             if (error.response && error.response.status === 404) {
-                console.error('Resource not found!');
+                return thunkAPI.rejectWithValue('Resource not found!');
             } else if (error.code === 'ECONNABORTED') {
-                console.error('Request timed out!');
+                return thunkAPI.rejectWithValue('Request timed out!');
             } else if (error.message === 'Network Error') {
-                console.error('Network error, please check your connection!');
+                return thunkAPI.rejectWithValue('Network error, please check your connection!');
             } else {
-                console.error('An unexpected error occurred:', error.message);
+                return thunkAPI.rejectWithValue('An unexpected error occurred.');
             }
-        } else {
-            console.error('An unknown error occurred:', error);
         }
+        return thunkAPI.rejectWithValue('Something went wrong.');
     }
 });
 
@@ -172,6 +173,7 @@ const timesheetSlice = createSlice({
             .addCase(fetchHolidays.rejected, (state, action) => {
                 state.fetchHolidayApiData.status = 'rejected';
                 state.fetchHolidayApiData.data = null;
+                state.fetchHolidayApiData.message = action.payload as string;
             })
             .addCase(saveTimesheet.pending, (state) => {
                 state.saveTimesheetApiData.status = 'pending';
@@ -184,6 +186,7 @@ const timesheetSlice = createSlice({
             .addCase(saveTimesheet.rejected, (state, action) => {
                 state.saveTimesheetApiData.status = 'rejected';
                 state.saveTimesheetApiData.data = null;
+                state.saveTimesheetApiData.message = action.payload as string;
             });
     },
 });

@@ -2,20 +2,12 @@
 import React from 'react';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import { Card, CardContent, CardHeader } from './ui/card';
+import { useAppSelector } from '@/store/hooks';
 
-// Sample data for workdays vs non-workdays (e.g., vacation, sick leave, holidays)
-const data = [
-    { day: 'Monday', work: 8, nonWork: 0 },
-    { day: 'Tuesday', work: 8, nonWork: 0 },
-    { day: 'Wednesday', work: 6, nonWork: 2 }, // Example where user took 2 hours off
-    { day: 'Thursday', work: 8, nonWork: 0 },
-    { day: 'Friday', work: 5, nonWork: 3 }, // Example with 3 hours off
-    { day: 'Saturday', work: 0, nonWork: 8 }, // Weekend, marked as non-working
-    { day: 'Sunday', work: 0, nonWork: 8 }, // Weekend, marked as non-working
-];
 
-// Custom styling for the chart
 const WorkdaysVsNonWorkdaysChart: React.FC = () => {
+    const chartData = useAppSelector((state) => state.analytics.fetchChartDataApiData);
+    const data = chartData.data.chart3 as []
     return (
         <Card className="shadow-md p-6">
             <CardHeader>
@@ -29,8 +21,8 @@ const WorkdaysVsNonWorkdaysChart: React.FC = () => {
                         <YAxis />
                         <Tooltip />
                         <Legend />
-                        <Bar dataKey="work" stackId="a" fill="#4CAF50" />
-                        <Bar dataKey="nonWork" stackId="a" fill="#FF9800" />
+                        <Bar dataKey="work" stackId="a" fill="#009688" />
+                        <Bar dataKey="nonWork" stackId="a" fill="#9e9e9e" />
                     </BarChart>
                 </ResponsiveContainer>
             </CardContent>

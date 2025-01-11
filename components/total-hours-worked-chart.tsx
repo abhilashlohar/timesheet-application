@@ -2,16 +2,13 @@
 import React from 'react';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import { Card, CardContent, CardHeader } from './ui/card';
+import { useAppSelector } from '@/store/hooks';
 
-const data = [
-    { week: 'Week 1', hours: 40 },
-    { week: 'Week 2', hours: 35 },
-    { week: 'Week 3', hours: 45 },
-    { week: 'Week 4', hours: 38 },
-];
 
-// Custom styling for the chart
 const TotalHoursWorkedChart: React.FC = () => {
+    const chartData = useAppSelector((state) => state.analytics.fetchChartDataApiData);
+    const data = chartData.data.chart2 as []
+
     return (
         <Card className="shadow-md p-6">
             <CardHeader>
@@ -23,9 +20,9 @@ const TotalHoursWorkedChart: React.FC = () => {
                         <CartesianGrid strokeDasharray="3 3" />
                         <XAxis dataKey="week" />
                         <YAxis />
-                        <Tooltip />
+                        <Tooltip contentStyle={{ color: 'var(--tw-text-opacity, #000)' }} />
                         <Legend />
-                        <Bar dataKey="hours" fill="#4CAF50" />
+                        <Bar dataKey="hours" fill="#009688" />
                     </BarChart>
                 </ResponsiveContainer>
             </CardContent>

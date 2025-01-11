@@ -5,6 +5,7 @@ import "./globals.css";
 import Header from "@/components/header";
 import ReduxProvider from "./redux-provider";
 import { Toaster } from "@/components/ui/toaster"
+import ThemeProvider from "./theme-provider";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -33,10 +34,12 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <ReduxProvider>
-          <Header />
-          <div className="max-w-7xl mx-auto px-4 py-3">
-            {children}
-          </div>
+          <ThemeProvider>
+            <Header />
+            <div className="max-w-7xl mx-auto px-4 py-3">
+              {children}
+            </div>
+          </ThemeProvider>
         </ReduxProvider>
         <Toaster />
       </body>

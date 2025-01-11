@@ -17,3 +17,6 @@ export interface WordStatus {
     status: WorkStatusType,
     metaData: any;
 }
+
+
+export type ApiStatus = "ideal" | "pending" | "fulfilled" | "rejected";

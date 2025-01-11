@@ -11,7 +11,7 @@ export default function CalendatHeader() {
     const dispatch = useAppDispatch();
 
     return (
-        <div className="flex items-center justify-between p-4 ">
+        <div className="flex items-center justify-between pb-4 ">
             <span className="text-md font-semibold text-black dark:text-white">
                 {moment(currentDate).format('MMMM YYYY')}
             </span>
