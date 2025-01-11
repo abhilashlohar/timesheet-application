@@ -25,4 +25,7 @@ npm run start
 
 Some screenshots:
 ![timesheet-desktop](https://github.com/abhilashlohar/timesheet-application/blob/main/screenshots/timesheet-desktop.png)
+![analytics-desktop](https://github.com/abhilashlohar/timesheet-application/blob/main/screenshots/analytics-desktop.png)
+![timesheet-mobile](https://github.com/abhilashlohar/timesheet-application/blob/main/screenshots/timesheet-mobile.png)
+![analytics-mobile](https://github.com/abhilashlohar/timesheet-application/blob/main/screenshots/analytics-mobile.png)
 
