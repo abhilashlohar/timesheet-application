@@ -20,6 +20,7 @@ For run the project in production mode
 ```bash
 npm install
 npm run build
+npm run mock
 npm run start
 ```
 
